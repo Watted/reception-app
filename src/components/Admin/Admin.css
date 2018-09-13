@@ -1,0 +1,78 @@
+.edit-group-header{
+    color:#483D8B;
+    margin-bottom: 1em;
+    font-size: 1.6em;
+    margin-top:0;
+}
+
+.children-table{
+    width: 90%;
+    text-align: center;
+    margin:auto;
+}
+
+.edit-group-wrapper{
+    text-align: center;
+}
+
+.children-header{
+    color:#483D8B;
+    margin-top:1.5em;
+    /*margin:auto;*/
+    margin-bottom: 1em;
+}
+
+.edit-group-save-btn, .add-children-btn{
+    color: darkslateblue;
+    background-color: lightblue;
+    border: 2px solid darkslateblue;
+    border-radius: 5px;
+    font-size:0.8em;
+    padding:0.3em 0.8em;
+    display: inline-block;
+    margin-left:1em;
+    vertical-align:middle;
+}
+
+.add-children-btn{
+    float: right;
+    margin-right: 4em;
+    display: block;
+}
+
+.parent, .group-id{
+    text-align: left;
+    padding-bottom: 0.5em;
+    font-size:1.3em;
+    color: darkslateblue;
+}
+
+.parent-name, .id{
+    font-size: 1.2em;
+    text-align: left;
+    margin-left:0.4em;
+}
+
+.parent-wrapper{
+    margin-left: 5em;
+}
+
+.delete-child-btn{
+    border:none;
+    background: white;
+    cursor: pointer;
+    outline: none;
+    margin-right: 1em;
+}
+
+.delete-child-btn{
+    text-align: left;
+}
+
+.edit-group-back-btn{
+    color: darkslateblue;
+    background-color: lightblue;
+    border: 1px solid darkslateblue;
+    border-radius: 5px;
+    padding:0.5em 1em;
+}

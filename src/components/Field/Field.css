@@ -1,0 +1,16 @@
+.field-label{
+    display: inline-block;
+    width: 100px;
+    text-align: left;
+    padding-bottom: 0.5em;
+    font-size:1.3em;
+    color: darkslateblue;
+}
+
+input.field-input{
+    font-size:1em;
+    background-color: azure;
+    outline: none;
+    border: 1px solid darkslateblue;
+    color: darkslateblue;
+}
