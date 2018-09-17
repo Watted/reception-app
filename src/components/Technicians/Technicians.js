@@ -11,7 +11,7 @@ class Technicians extends Component{
             user:{
                 id:uuid(),
                 name: "",
-                username: "",
+                email: "",
                 password: "",
                 type:"Technician",
             }

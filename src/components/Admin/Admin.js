@@ -12,10 +12,10 @@ class Admin extends Component{
         super(props);
         this.state = {
             data : [
-                {id: uuid(),name:'Mohammed',type:'Technician'},
-                {id: uuid(),name:'Abed',type:'Technician'},
-                {id: uuid(),name:'Ahmad',type:'Technician'},
-                {id: uuid(),name:'Omar',type:'Technician'}],
+                {id: uuid(),name:'Mohammed',email:'wattk308@gmail.com',type:'Technician'},
+                {id: uuid(),name:'Abed',email:'abed@gmail.com',type:'Technician'},
+                {id: uuid(),name:'Ahmad',email:'ahmad@gmail.com',type:'Technician'},
+                {id: uuid(),name:'Omar',email:'omar@gmail.com',type:'Technician'}],
             columns:[
                 {
                     Header: 'ID',
@@ -24,6 +24,10 @@ class Admin extends Component{
                 {
                     Header: 'Name',
                     accessor: 'name',
+                },
+                {
+                    Header: 'Email',
+                    accessor: 'email',
                 },
                 {
                     Header: 'Type',

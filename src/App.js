@@ -24,12 +24,23 @@ class App extends Component {
     constructor(props){
         super(props);
         this.state ={
-            username:"",
-            password:"",
             isSignedIn:false,
             route: 'signin',
+            user:{
+                id:'',
+                name:"",
+                email: '',
+            }
         }
     }
+
+    loadUser =(user)=>{
+        this.setState({user:{
+                id:user.id,
+                name:user.name,
+                email:user.email,
+            }})
+    };
 
     onRouteChange = (route) =>{
         if (route === 'signout') {
@@ -51,7 +62,7 @@ class App extends Component {
           <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
           {this.state.route === 'home'
                ? <Admin/>
-              : <SignIn onRouteChange={this.onRouteChange}/>
+              : <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
           }
           {/*<div>
               <Switch>
