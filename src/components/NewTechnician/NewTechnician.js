@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Field from "../Field/Field";
 import {Link} from "react-router-dom";
-import uuid from "uuid/v1";
 
 class NewTechnician extends Component{
 
@@ -9,11 +8,9 @@ class NewTechnician extends Component{
         super(props);
         this.state={
             user:{
-                id:uuid(),
                 name: "",
-                username: "",
+                email: "",
                 password: "",
-                type:"Technician",
             }
         }
     }
@@ -28,6 +25,20 @@ class NewTechnician extends Component{
             }
         })
     };
+    onCreateNewUser = () =>{
+         fetch('http://localhost:4000/technician',{
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                email: this.state.user.email,
+                password: this.state.user.password,
+                name: this.state.user.name,
+            })
+        }).then(response => response.json())
+            .then(user => {
+              console.log(user);
+            });
+    };
 
     render(){
         return(
@@ -36,11 +47,11 @@ class NewTechnician extends Component{
                 <div className={"new-user-wrapper"}>
                     <h2 className='new-user-header'>Create new user</h2>
                     <Field name={'name'} type={'text'} onChange={this.updateField}/>
-                    <Field name={'username'} type={'text'} onChange={this.updateField}/>
+                    <Field name={'email'} type={'text'} onChange={this.updateField}/>
                     <Field name={'password'} type={'text'} onChange={this.updateField}/>
                     <p hidden={!this.state.message}>{this.state.message}</p>
-                    <Link to={'/technicians'}> <button onClick={()=>this.props.onCreateNewUser(this.state.user)} className="create-new-user-btn"
-                                                       disabled={!this.state.user.name|| !this.state.user.username || !this.state.user.password} type="button">Create</button></Link>
+                    <Link to={'/technicians'}> <button onClick={this.onCreateNewUser} className="create-new-user-btn"
+                                                       disabled={!this.state.user.name|| !this.state.user.email || !this.state.user.password} type="button">Create</button></Link>
                 </div>
             </div>
         );

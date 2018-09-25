@@ -64,13 +64,6 @@ class App extends Component {
                ? <Admin/>
               : <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
           }
-          {/*<div>
-              <Switch>
-                  <Route exact={true} path='/Admin' render={this.adminRender}/>
-                  <Route exact={true} path='/technicians' render={this.technicianRender}/>
-                  <Route exact={true} path="/technicians/new" render={this.addTechnicianRender}/>
-              </Switch>
-          </div>*/}
       </div>
     );
   }

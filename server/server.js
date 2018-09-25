@@ -55,6 +55,24 @@ app.post('/signin', (req,res) => {
     }
 });
 
+app.get('/users',(req,res)=>{
+   res.json(database.users);
+});
+
+app.delete('');
+
+app.post('/technician',(req,res) => {
+    const {name,email,password} = req.body;
+    database.users.push({
+        id: '125',
+        name: name,
+        email: email,
+        password: password,
+        type:'Technician',
+    });
+    res.json(database.users[database.users.length-1]);
+});
+
 app.listen(4000,() => {
     console.log('app is running on port 3000');
 });
