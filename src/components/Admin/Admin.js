@@ -1,10 +1,7 @@
 import React , {Component} from 'react';
 import Technicians from "../Technicians/Technicians";
 import 'react-table/react-table.css';
-import {Route, Switch} from "react-router-dom";
-
 import './Admin.css';
-import NewTechnician from "../NewTechnician/NewTechnician";
 import Server from "../Server/Server";
 import Kiosks from "../Kiosks/Kiosks";
 
@@ -29,9 +26,6 @@ class Admin extends Component{
             });
     }
 
-    technicianRender = () =>(<Technicians />);
-
-    addTechnicianRender = () => (<NewTechnician/>);
 
     onRouteChange = (route,kiosks) =>{
         this.setState({route:route,kiosks:kiosks});
@@ -41,12 +35,14 @@ class Admin extends Component{
     render(){
         return(
                 <div className='pa3 ma0 '>
-                    <p className={"f4 link dim black underline pa3 pointer"} onClick={()=>this.onRouteChange('listTechnician',[])}>Technician List</p>
                     {this.state.route === 'server'?
-                        <div style={{display: 'flex'}}>
-                            {this.state.servers.map((server, id) => {
-                                return <Server onRouteChange={this.onRouteChange} server={server} key={id}/>
-                            })}
+                        <div>
+                            <p className={"f4 link dim black underline pa3 pointer"} onClick={()=>this.onRouteChange('listTechnician',[])}>Technician List</p>
+                            <div style={{display: 'flex'}}>
+                                {this.state.servers.map((server, id) => {
+                                    return <Server onRouteChange={this.onRouteChange} server={server} key={id}/>
+                                })}
+                            </div>
                         </div>
                         :(
                             this.state.route === 'kiosk' ?
@@ -63,12 +59,6 @@ class Admin extends Component{
                         )
 
                     }
-                    <div>
-                        <Switch>
-                            <Route exact={true} path='/technicians' render={this.technicianRender}/>
-                            <Route exact={true} path="/technicians/new" render={this.addTechnicianRender}/>
-                        </Switch>
-                    </div>
 
                 </div>
         );

@@ -1,6 +1,6 @@
 import ReactTable from "react-table";
 import React,{Component} from "react";
-import {Link} from "react-router-dom";
+import NewTechnician from "../NewTechnician/NewTechnician";
 
 class Technicians extends Component{
 
@@ -8,6 +8,7 @@ class Technicians extends Component{
         super(props);
         this.state = {
             isLoaded:false,
+            route:'list',
             data : [],
             columns:[
                 {
@@ -41,13 +42,15 @@ class Technicians extends Component{
 
     }
 
+    onRouteChange = (route) =>{
+        this.setState({route:route});
+    };
 
     componentDidMount() {
         console.log("render");
         fetch('http://localhost:4000/users')
             .then(response => response.json())
             .then(users => {
-                console.log(users);
                 this.setState({data:users,isLoaded:true,});
 
             });
@@ -62,16 +65,20 @@ class Technicians extends Component{
 
 
     render() {
-        const {isLoaded,data,columns} = this.state;
+        const {data,columns} = this.state;
         return (
             <div className='pa3 ma0 '>
-                    <Link to={"/technicians/new"}><p className={"f3 link dim black underline pa3 pointer"} >Add New Technician</p></Link>
-                    <button onClick={()=>this.props.onRouteChange('server',[])}>Back</button>
-                {isLoaded ?
-                    <ReactTable noDataText={"There is no Technicians"} columns={columns}
-                                data={data}
-                                filterable={true} defaultSortDesc={true} defaultPageSize={5} minRows={5}/>
-                    : <div>Loading...</div>
+                {this.state.route === 'list' ?
+                    <div>
+                        <p onClick={()=> this.onRouteChange('newTechnician')} className={"f3 link dim black underline pa3 pointer"} >Add New Technician</p>
+                        <p className={"f3 link dim black underline pa3 pointer"} onClick={()=>this.props.onRouteChange('server',[])}>Back</p>
+                        <ReactTable noDataText={"There is no Technicians"} columns={columns}
+                                    data={data}
+                                    filterable={true} defaultSortDesc={true} defaultPageSize={5} minRows={5}/>
+                    </div>
+                    : <div>
+                        <NewTechnician onRouteChange={this.onRouteChange}/>
+                    </div>
                 }
             </div>
         );

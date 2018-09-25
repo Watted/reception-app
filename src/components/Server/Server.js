@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import Circle from "../Circle/Circle";
 
 class Server extends Component {
     constructor(props){
@@ -7,21 +8,30 @@ class Server extends Component {
             id:'',
             name:'',
             kiosks : [],
+            good:null,
+            color:''
         }
 
     }
 
     componentWillMount(){
-        const {id,name,kiosks} = this.props.server;
+        const {id,name,kiosks,good} = this.props.server;
         this.setState({id:id ,name:name,kiosks: kiosks});
+
+        if(good){
+            this.setState({color:'green'});
+        }else{
+            if (this.props.kiosk.exceptions) {
+                this.setState({color:'red'});
+            }
+        }
     }
 
     render(){
         return (
-            <article className="mw5 center bg-white br3 pa3 pa4-ns mv3 ba b--black-10" onClick={()=>this.props.onRouteChange('kiosk',this.state.kiosks)}>
+            <article className="pointer br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center" onClick={()=>this.props.onRouteChange('kiosk',this.state.kiosks)}>
                 <div className="tc">
-                    <img src="http://tachyons.io/img/avatar_1.jpg" className="br-100 h4 w4 dib ba b--black-05 pa2"
-                         title={this.state.id} alt={''}/>
+                    <Circle bgColor={'green'} />
                     <h1 className="f3 mb2">{this.state.name}</h1>
                 </div>
             </article>

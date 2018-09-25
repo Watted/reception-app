@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Field from "../Field/Field";
-import {Link} from "react-router-dom";
 
 class NewTechnician extends Component{
 
@@ -38,22 +37,23 @@ class NewTechnician extends Component{
             .then(user => {
               console.log(user);
             });
+         this.props.onRouteChange('list');
     };
 
     render(){
         return(
-            <div>
-                <Link to='/technicians'><button className="new-user-back-btn">Back</button></Link>
+            <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
                 <div className={"new-user-wrapper"}>
                     <h2 className='new-user-header'>Create new user</h2>
                     <Field name={'name'} type={'text'} onChange={this.updateField}/>
                     <Field name={'email'} type={'text'} onChange={this.updateField}/>
                     <Field name={'password'} type={'text'} onChange={this.updateField}/>
                     <p hidden={!this.state.message}>{this.state.message}</p>
-                    <Link to={'/technicians'}> <button onClick={this.onCreateNewUser} className="create-new-user-btn"
-                                                       disabled={!this.state.user.name|| !this.state.user.email || !this.state.user.password} type="button">Create</button></Link>
+                    <p className={"f3 link dim black underline pa3 pointer"} onClick={()=>this.props.onRouteChange('list')}>Back</p>
+                    <button onClick={this.onCreateNewUser} className="create-new-user-btn"
+                                                           disabled={!this.state.user.name|| !this.state.user.email || !this.state.user.password} type="button">Create</button>
                 </div>
-            </div>
+            </article>
         );
     }
 };

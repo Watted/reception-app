@@ -51,7 +51,6 @@ class App extends Component {
         this.setState({route:route})
     };
 
-    //adminRender = ()=>(<Admin/>);
 
   render() {
     return (
