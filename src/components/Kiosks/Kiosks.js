@@ -7,29 +7,37 @@ class Kiosks extends Component {
         super(props);
         this.state = {
             color:'',
+
         }
     }
 
-    componentWillMount(){
+    componentDidMount(){
+        fetch('http://10.0.0.58:8080/users/all')
+            .then(response => response.json())
+            .then(user => {
+                console.log(user);
+                this.props.updateState(user);
+
+            });
         if(this.props.kiosk.good){
             this.setState({color:'green'});
         }else{
-            if (this.props.kiosk.exceptions) {
-                this.setState({color:'red'});
-            }
+            this.setState({color:'red'});
         }
-        console.log("exception:  " + this.props.kiosk.exceptions);
+        console.log('kiosk: ' + this.props.kiosk.good);
     }
+
 
     render(){
         return (
-            <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center">
-                <div className="tc">
-                   <Circle bgColor={this.state.color}/>
-                        <h1 className="f3 mb2">{this.props.kiosk.hotelName}</h1>
-                        <h2 className="f5 fw4 gray mt0">{this.props.kiosk.exceptions}</h2>
-                </div>
-            </article>
+                    <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center" onClick={()=>this.props.onRouteChangeTech('listTech',this.props.kiosk)}>
+                        <div className="tc">
+                            <Circle bgColor={this.state.color}/>
+                            <h1 className="f3 mb2">{this.props.kiosk.hotelName}</h1>
+                            <h2 className="f5 fw4 gray mt0">{this.props.kiosk.exceptions.desc}</h2>
+                        </div>
+                    </article>
+
         );
     }
 };

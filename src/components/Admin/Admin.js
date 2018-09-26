@@ -4,6 +4,7 @@ import 'react-table/react-table.css';
 import './Admin.css';
 import Server from "../Server/Server";
 import Kiosks from "../Kiosks/Kiosks";
+import ReactTable from "react-table";
 
 class Admin extends Component{
 
@@ -13,10 +14,33 @@ class Admin extends Component{
             servers:[],
             route:'server',
             kiosks:[],
+            kiosk:null,
+            data : [],
+            columns:[
+                {
+                    Header: 'ID',
+                    accessor: 'id',
+                },
+                {
+                    Header: 'Name',
+                    accessor: 'techName',
+                },
+                {
+                    Header: 'Email',
+                    accessor: 'email',
+                },
+                {
+                    Header: 'Action',
+                    Cell: props =>{ return (<p className={"link dim black underline ma0 pointer"} onClick={()=>{this.sendToTechnician(props.original.id)}}>Send</p>)},
+                    sortable: false,
+                    filterable: false,
+                    width:100,
+                    maxWidth:100,
+                    minWidth:100,
+                }],
         }
     }
     componentDidMount() {
-        console.log("render");
         fetch('http://10.0.0.58:8080/servers/all')
             .then(response => response.json())
             .then(servers => {
@@ -26,9 +50,35 @@ class Admin extends Component{
             });
     }
 
+    updateState = (user)=>{
+      this.setState({data:user});
+    };
+
 
     onRouteChange = (route,kiosks) =>{
         this.setState({route:route,kiosks:kiosks});
+    };
+
+    onRouteChangeTech = (route,kiosk) =>{
+        this.setState({route:route,kiosk:kiosk});
+    };
+
+    sendToTechnician = (techID) =>{
+        console.log("id:  " + techID);
+        console.log("kiosk: " + this.state.kiosk.id);
+        fetch('http://10.0.0.58:8080/users/assign',{
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                techID:techID,
+                kiosk: this.state.kiosk,
+            }),
+        }).then(response => response.json())
+            .then(kiosk => {
+                console.log(kiosk);
+            });
+        this.onRouteChange('server');
+
     };
 
 
@@ -50,12 +100,17 @@ class Admin extends Component{
                                     <p onClick={() => this.onRouteChange('server',[])} className='f3 link dim black underline pa3 pointer'>Back</p>
                                     <div style={{display: 'flex'}}>
                                         {this.state.kiosks.map((kiosk, id) => {
-                                            return <Kiosks onRouteChange={this.onRouteChange} kiosk={kiosk} key={id}/>
+                                            return <Kiosks updateState={this.updateState} onRouteChangeTech={this.onRouteChangeTech} kiosk={kiosk} key={id}/>
                                         })}
                                     </div>
                                 </div>
-                                :
-                                <Technicians onRouteChange={this.onRouteChange} />
+                                :(this.state.route === 'listTechnician' ?
+                                        <Technicians onRouteChange={this.onRouteChange} />
+                                    :
+                                    <ReactTable noDataText={"There is no Technicians away"} columns={this.state.columns}
+                                                data={this.state.data}
+                                                filterable={true} defaultSortDesc={true} defaultPageSize={5} minRows={5}/>
+                                )
                         )
 
                     }

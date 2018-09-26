@@ -29,11 +29,67 @@ const database = {
         },
 
     ],
-    login: [
+    technicians:[
         {
-            id: '987',
-            hash: '',
-            email: 'john@gmail.com'
+            id:'789',
+            techName: 'Ahmad',
+            email:'ahmad@gmail.com',
+            jobs:[],
+        },
+        {
+            id:'456',
+            techName: 'Abed',
+            email:'abed@gmail.com',
+            jobs:[],
+        }
+    ],
+    servers: [
+        {
+            id: '123',
+            name: 'server1',
+            kiosks:[
+                {
+                    id:'123',
+                    macAddress:'kiosk1',
+                    hotelName: 'Tel-Aviv Hotel',
+                    good:false,
+                    serverID:'123',
+                    exceptions:[],
+                },
+                {
+                    id:'124',
+                    macAddress:'kiosk2',
+                    hotelName: 'Tel-Aviv2 Hotel',
+                    good:true,
+                    serverID:'123',
+                    exceptions:[],
+                }
+
+            ]
+        },
+        {
+            id: '124',
+            name: 'server2',
+            kiosks:[
+                {
+                    id:'123',
+                    macAddress:'kiosk1',
+                    hotelName: 'Beersheva Hotel',
+                    good:true,
+                    serverID:'124',
+                    exceptions:[
+
+                            ],
+                },
+                {
+                    id:'124',
+                    macAddress:'kiosk2',
+                    hotelName: 'Tel-Aviv Hotel',
+                    good:true,
+                    serverID:'124',
+                    exceptions:[],
+                }
+            ]
         }
 
     ]
@@ -44,6 +100,24 @@ app.use(cors());
 
 app.get('/',(req,res) => {
     res.send(database.users);
+});
+
+app.get('/users/getFree',(req,res)=>{
+    res.json(database.technicians);
+});
+
+app.post('/users/assign',(req,res)=>{
+    database.technicians.forEach((tech)=>{
+       if (tech.id === req.body.id) {
+           tech.jobs.push(req.body.kiosk);
+           console.log(tech);
+       }
+    });
+
+});
+
+app.get('/servers/all',(req,res)=>{
+   res.json(database.servers);
 });
 
 app.post('/signin', (req,res) => {

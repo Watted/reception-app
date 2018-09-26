@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Field from "../Field/Field";
+import './NewTechnician.css';
 
 class NewTechnician extends Component{
 
@@ -25,7 +26,7 @@ class NewTechnician extends Component{
         })
     };
     onCreateNewUser = () =>{
-         fetch('http://localhost:4000/technician',{
+         fetch('http://10.0.0.58:8080/users',{
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -49,9 +50,11 @@ class NewTechnician extends Component{
                     <Field name={'email'} type={'text'} onChange={this.updateField}/>
                     <Field name={'password'} type={'text'} onChange={this.updateField}/>
                     <p hidden={!this.state.message}>{this.state.message}</p>
-                    <p className={"f3 link dim black underline pa3 pointer"} onClick={()=>this.props.onRouteChange('list')}>Back</p>
-                    <button onClick={this.onCreateNewUser} className="create-new-user-btn"
-                                                           disabled={!this.state.user.name|| !this.state.user.email || !this.state.user.password} type="button">Create</button>
+                    <div className={'footer'}>
+                        <p className={"f3 link dim black underline pa3 pointer"} onClick={()=>this.props.onRouteChange('list')}>Back</p>
+                        <button onClick={this.onCreateNewUser} className="create-new-user-btn"
+                                                               disabled={!this.state.user.name|| !this.state.user.email || !this.state.user.password} type="button">Create</button>
+                    </div>
                 </div>
             </article>
         );

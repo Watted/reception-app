@@ -1,6 +1,7 @@
 import ReactTable from "react-table";
 import React,{Component} from "react";
 import NewTechnician from "../NewTechnician/NewTechnician";
+import './Technicians.css';
 
 class Technicians extends Component{
 
@@ -17,7 +18,7 @@ class Technicians extends Component{
                 },
                 {
                     Header: 'Name',
-                    accessor: 'name',
+                    accessor: 'techName',
                 },
                 {
                     Header: 'Email',
@@ -48,7 +49,7 @@ class Technicians extends Component{
 
     componentDidMount() {
         console.log("render");
-        fetch('http://localhost:4000/users')
+        fetch('http://10.0.0.58:8080/users/all')
             .then(response => response.json())
             .then(users => {
                 this.setState({data:users,isLoaded:true,});
@@ -70,8 +71,10 @@ class Technicians extends Component{
             <div className='pa3 ma0 '>
                 {this.state.route === 'list' ?
                     <div>
-                        <p onClick={()=> this.onRouteChange('newTechnician')} className={"f3 link dim black underline pa3 pointer"} >Add New Technician</p>
-                        <p className={"f3 link dim black underline pa3 pointer"} onClick={()=>this.props.onRouteChange('server',[])}>Back</p>
+                        <div className={'header'}>
+                            <p onClick={()=> this.onRouteChange('newTechnician')} className={"f3 link dim black underline pa3 pointer"} >Add New Technician</p>
+                            <p className={"f3 link dim black underline pa3 pointer"} onClick={()=>this.props.onRouteChange('server',[])}>Back</p>
+                        </div>
                         <ReactTable noDataText={"There is no Technicians"} columns={columns}
                                     data={data}
                                     filterable={true} defaultSortDesc={true} defaultPageSize={5} minRows={5}/>

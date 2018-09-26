@@ -1,0 +1,15 @@
+.footer{
+    display: inline-flex;
+}
+.footer button{
+    color: darkslateblue;
+    background-color: lightblue;
+    border: 1px solid darkslateblue;
+    border-radius:5px;
+    margin: auto;
+    margin-left: 40px;
+}
+.footer p{
+    margin:auto;
+    margin-right: 40px;
+}
