@@ -41,7 +41,7 @@ class Admin extends Component{
         }
     }
     componentDidMount() {
-        fetch('http://10.0.0.58:8080/servers/all')
+        fetch('http://localhost:4000/servers/all')
             .then(response => response.json())
             .then(servers => {
                 console.log(servers);
@@ -65,8 +65,8 @@ class Admin extends Component{
 
     sendToTechnician = (techID) =>{
         console.log("id:  " + techID);
-        console.log("kiosk: " + this.state.kiosk.id);
-        fetch('http://10.0.0.58:8080/users/assign',{
+        console.log("kiosk: " + this.state.kiosk.macAddress);
+        fetch('http://localhost:4000/users/assign',{
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({

@@ -20,7 +20,7 @@ class Server extends Component {
             this.setState({color:'red',good:false});
 
         }
-        console.log("heee" + good);
+        console.log("good: " + good);
         this.setState({id:id ,name:name,kiosks: kiosks});
 
 

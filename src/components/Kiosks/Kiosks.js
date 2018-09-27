@@ -12,7 +12,7 @@ class Kiosks extends Component {
     }
 
     componentDidMount(){
-        fetch('http://10.0.0.58:8080/users/all')
+        fetch('http://localhost:4000/users/all')
             .then(response => response.json())
             .then(user => {
                 console.log(user);

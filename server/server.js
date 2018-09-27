@@ -8,21 +8,21 @@ const database = {
     users: [
         {
             id: '123',
-            name: 'Mohammed',
+            techName: 'Mohammed',
             password:'momo',
             email: 'wattk308@gmail.com',
             type: 'Technician',
         },
         {
             id: '456',
-            name:'Abed',
+            techName:'Abed',
             password:'abed',
             email:'abed@gmail.com',
             type:'Technician'
         },
         {
             id: '789',
-            name:'Ahmad',
+            techName:'Ahmad',
             password:'ahmad',
             email:'ahmad@gmail.com',
             type:'Technician'
@@ -47,6 +47,7 @@ const database = {
         {
             id: '123',
             name: 'server1',
+            good: false,
             kiosks:[
                 {
                     id:'123',
@@ -70,6 +71,7 @@ const database = {
         {
             id: '124',
             name: 'server2',
+            good:true,
             kiosks:[
                 {
                     id:'123',
@@ -129,17 +131,24 @@ app.post('/signin', (req,res) => {
     }
 });
 
-app.get('/users',(req,res)=>{
+app.get('/users/all',(req,res)=>{
    res.json(database.users);
 });
 
-app.delete('');
+app.delete('/users/delete',(req,res)=>{
+    const {id} = req.body;
+    const index = database.users.findIndex(user=>{
+       return user.id === id;
+    });
+    database.users = database.users.filter((row,j)=>j!==index);
+    res.json(database.users);
+});
 
-app.post('/technician',(req,res) => {
+app.post('/users/technician',(req,res) => {
     const {name,email,password} = req.body;
     database.users.push({
         id: '125',
-        name: name,
+        techName: name,
         email: email,
         password: password,
         type:'Technician',

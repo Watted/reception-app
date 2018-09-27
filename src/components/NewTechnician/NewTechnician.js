@@ -26,7 +26,7 @@ class NewTechnician extends Component{
         })
     };
     onCreateNewUser = () =>{
-         fetch('http://10.0.0.58:8080/users',{
+         fetch('http://localhost:4000/users/technician',{
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -37,6 +37,7 @@ class NewTechnician extends Component{
         }).then(response => response.json())
             .then(user => {
               console.log(user);
+              this.props.componentDidMount();
             });
          this.props.onRouteChange('list');
     };
