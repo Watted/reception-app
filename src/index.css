@@ -1,9 +1,17 @@
 body {
   margin: 0;
-  padding: 0;
+  padding: 0 100px;
   font-family: sans-serif;
-  background: linear-gradient(89deg,#FF5EDF 0%,#04C8DE 100%);
+  background: linear-gradient(89deg, #e7eaea 0%, #fcffff 100%);
 }
+
+@media only screen
+and (max-width : 768px) {
+  body{
+    padding: 0;
+  }
+}
+
 
 button{
   cursor: pointer;

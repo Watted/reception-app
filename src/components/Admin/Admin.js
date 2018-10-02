@@ -4,7 +4,7 @@ import 'react-table/react-table.css';
 import './Admin.css';
 import Server from "../Server/Server";
 import Kiosks from "../Kiosks/Kiosks";
-import ReactTable from "react-table";
+import TechniciansController from "../TechniciansController/TechniciansController";
 
 class Admin extends Component{
 
@@ -15,29 +15,8 @@ class Admin extends Component{
             route:'server',
             kiosks:[],
             kiosk:null,
-            data : [],
-            columns:[
-                {
-                    Header: 'ID',
-                    accessor: 'id',
-                },
-                {
-                    Header: 'Name',
-                    accessor: 'techName',
-                },
-                {
-                    Header: 'Email',
-                    accessor: 'email',
-                },
-                {
-                    Header: 'Action',
-                    Cell: props =>{ return (<p className={"link dim black underline ma0 pointer"} onClick={()=>{this.sendToTechnician(props.original.id)}}>Send</p>)},
-                    sortable: false,
-                    filterable: false,
-                    width:100,
-                    maxWidth:100,
-                    minWidth:100,
-                }],
+            data:[],
+
         }
     }
     componentDidMount() {
@@ -63,15 +42,15 @@ class Admin extends Component{
         this.setState({route:route,kiosk:kiosk});
     };
 
-    sendToTechnician = (techID) =>{
-        console.log("id:  " + techID);
-        console.log("kiosk: " + this.state.kiosk.macAddress);
+    sendToTechnician = (techID,problem,date) =>{
+        console.log("problem:  " + problem +' date: ' + date);
+        const macAddress = this.state.kiosk.macAddress;
         fetch('http://localhost:4000/users/assign',{
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 techID:techID,
-                kiosk: this.state.kiosk,
+                job: {macAddress,problem,date},
             }),
         }).then(response => response.json())
             .then(kiosk => {
@@ -80,7 +59,6 @@ class Admin extends Component{
         this.onRouteChange('server');
 
     };
-
 
     render(){
         return(
@@ -107,9 +85,7 @@ class Admin extends Component{
                                 :(this.state.route === 'listTechnician' ?
                                         <Technicians onRouteChange={this.onRouteChange} />
                                     :
-                                    <ReactTable noDataText={"There is no Technicians away"} columns={this.state.columns}
-                                                data={this.state.data}
-                                                filterable={true} defaultSortDesc={true} defaultPageSize={5} minRows={5}/>
+                                    <TechniciansController sendToTechnician={this.sendToTechnician} kiosk={this.state.kiosk} data={this.state.data}/>
                                 )
                         )
 

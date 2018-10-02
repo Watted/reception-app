@@ -1,23 +1,11 @@
 import React, { Component } from 'react';
 import Navigation from './components/Navigation/Navigation';
 import Admin from './components/Admin/Admin';
-import Particles from 'react-particles-js';
 import './App.css';
 
 
 import SignIn from "./components/SignIn/SignIn";
 
-const particlesOptions = {
-    particles: {
-        number:{
-            value: 30,
-            density: {
-                enable: true,
-                value_area:600
-            }
-        }
-    }
-};
 
 class App extends Component {
 
@@ -37,9 +25,10 @@ class App extends Component {
     loadUser =(user)=>{
         this.setState({user:{
                 id:user.id,
-                name:user.name,
+                name:user.techName,
                 email:user.email,
-            }})
+            }});
+        console.log(user.name)
     };
 
     onRouteChange = (route) =>{
@@ -55,10 +44,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          <Particles className='particles'
-                     params={particlesOptions}
-          />
-          <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
+          <Navigation name={this.state.user.name} isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
           {this.state.route === 'home'
                ? <Admin/>
               : <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>

@@ -55,7 +55,7 @@ const database = {
                     hotelName: 'Tel-Aviv Hotel',
                     good:false,
                     serverID:'123',
-                    exceptions:[],
+                    exceptions:['problem with kiosk','aaaaaaaaaa'],
                 },
                 {
                     id:'124',
@@ -110,9 +110,10 @@ app.get('/users/getFree',(req,res)=>{
 
 app.post('/users/assign',(req,res)=>{
     database.technicians.forEach((tech)=>{
-       if (tech.id === req.body.id) {
-           tech.jobs.push(req.body.kiosk);
+       if (tech.id === req.body.techID) {
+           tech.jobs.push(req.body.job);
            console.log(tech);
+           return;
        }
     });
 
