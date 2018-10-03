@@ -12,7 +12,7 @@ class Kiosks extends Component {
     }
 
     componentDidMount(){
-        fetch('http://localhost:4000/users/all')
+        fetch('http://10.0.0.58:8080/users/all')
             .then(response => response.json())
             .then(user => {
                 console.log(user);
@@ -22,19 +22,30 @@ class Kiosks extends Component {
         if(this.props.kiosk.good){
             this.setState({color:'green'});
         }else{
-            this.setState({color:'red'});
+            this.props.kiosk.exceptions.forEach((exception)=>{
+               if (exception.exType === 'RED') {
+                   this.setState({color:'red'});
+                   return;
+               }
+               else {
+                   this.setState({color:'yellow'})
+
+               }
+            });
         }
-        console.log('kiosk: ' + this.props.kiosk.good);
     }
 
 
     render(){
         return (
-                    <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center" onClick={()=>this.props.onRouteChangeTech('listTech',this.props.kiosk)}>
+                    <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw6 shadow-5 center"
+                             onClick={()=>{
+                                 this.props.updateKioskRoute(this.props.kiosk.macAddress);
+                                this.props.onRouteChangeTech('listTech',this.props.kiosk)}}>
                         <div className="tc">
                             <Circle bgColor={this.state.color}/>
                             <h1 className="f3 mb2">{this.props.kiosk.hotelName}</h1>
-                            <h2 className="f5 fw4 gray mt0">{this.props.kiosk.exceptions.desc}</h2>
+                            <h2 className="f5 fw4 gray mt0">{this.props.kiosk.exceptions.exceptionDisc}</h2>
                         </div>
                     </article>
 

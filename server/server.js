@@ -112,7 +112,6 @@ app.post('/users/assign',(req,res)=>{
     database.technicians.forEach((tech)=>{
        if (tech.id === req.body.techID) {
            tech.jobs.push(req.body.job);
-           console.log(tech);
            return;
        }
     });

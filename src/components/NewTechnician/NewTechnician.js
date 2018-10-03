@@ -26,16 +26,16 @@ class NewTechnician extends Component{
         })
     };
     onCreateNewUser = () =>{
-         fetch('http://localhost:4000/users/technician',{
+
+        const email = this.state.user.email;
+        const name = this.state.user.name;
+         fetch('http://10.0.0.58:8080/users/addTech/'+name+'/'+email,{
             method: 'post',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                email: this.state.user.email,
-                password: this.state.user.password,
-                name: this.state.user.name,
-            })
-        }).then(response => response.json())
-            .then(user => {
+           /* body: JSON.stringify({
+                techman:{techName:name,email:email},
+            })*/
+        }).then(user => {
               console.log(user);
               this.props.componentDidMount();
             });

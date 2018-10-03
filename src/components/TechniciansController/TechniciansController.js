@@ -53,7 +53,7 @@ class TechniciansController extends Component {
                 </div>
                 <div style={{display: 'flex', justifyContent: 'flex-start'}}>
                     {this.props.kiosk.exceptions.map((item,id)=>{
-                            return (<label style={{padding:5}} key={id}><input name={id} type={'checkbox'} onChange={()=>this.handleChecked(item)}/>{item}</label>)
+                            return (<label style={{padding:5}} key={id}><input name={id} type={'checkbox'} onChange={()=>this.handleChecked(item.exceptionDisc)}/>{item.exceptionDisc}</label>)
                             }
                         )
                     }

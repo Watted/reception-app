@@ -1,6 +1,4 @@
 import React from 'react';
-import {Link} from "react-router-dom";
-
 
 
 class SignIn extends React.Component {
@@ -22,18 +20,18 @@ class SignIn extends React.Component {
     };
 
     onSubmitSignIn = () =>{
-        fetch('http://localhost:4000/signin',{
+        fetch('http://10.0.0.58:8080/auth/signin/'+this.state.signInEmail,{
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                email: this.state.signInEmail,
                 password: this.state.signInPassword
             })
         }).then(response => response.json())
             .then(user => {
+                    console.log(user);
                 if (user.id){
                     this.props.loadUser(user);
-                    this.props.onRouteChange('home');
+                    this.props.onRouteChange(user.type);
                 }
             });
     };
@@ -57,11 +55,11 @@ class SignIn extends React.Component {
                             </div>
                         </fieldset>
                         <div className="">
-                            <Link to={'/home'}><input
+                           <input
                                 onClick={this.onSubmitSignIn}
                                 className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib"
                                 type="submit" value="Sign in"
-                            /></Link>
+                            />
                         </div>
                     </div>
                 </main>

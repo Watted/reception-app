@@ -18,6 +18,7 @@ class App extends Component {
                 id:'',
                 name:"",
                 email: '',
+                type:''
             }
         }
     }
@@ -25,16 +26,18 @@ class App extends Component {
     loadUser =(user)=>{
         this.setState({user:{
                 id:user.id,
-                name:user.techName,
+                name:user.name,
                 email:user.email,
+                type:user.type,
             }});
         console.log(user.name)
     };
 
+
     onRouteChange = (route) =>{
         if (route === 'signout') {
-            this.setState({isSignedIn:false});
-        }else if (route === 'home') {
+            this.setState({isSignedIn:false,user:{id:'',name:'',email:'',type:''}});
+        }else if (route === 'SYS_ADMIN') {
             this.setState({isSignedIn:true});
         }
         this.setState({route:route})
@@ -44,11 +47,16 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-          <Navigation name={this.state.user.name} isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
-          {this.state.route === 'home'
+          <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
+          <div className="nav-left" hidden={!this.state.isSignedIn}>
+              <p className='app-logged-in f3 dim black'>logged in as: {this.state.user.type}</p>
+          </div>
+          <div className='switch'>
+          {this.state.route === 'SYS_ADMIN'
                ? <Admin/>
               : <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
           }
+          </div>
       </div>
     );
   }

@@ -25,12 +25,6 @@ class Technicians extends Component{
                     accessor: 'email',
                 },
                 {
-                    Header: 'Type',
-                    accessor: 'type',
-                    sortable: false,
-                    filterable: false,
-                },
-                {
                     Header: 'Action',
                     Cell: props =>{ return (<p className={"link dim black underline ma0 pointer"} onClick={()=>{this.deleteTechnician(props.original.id)}}>Delete</p>)},
                     sortable: false,
@@ -50,7 +44,7 @@ class Technicians extends Component{
 
     componentDidMount() {
         console.log("render");
-        fetch('http://localhost:4000/users/all')
+        fetch('http://10.0.0.58:8080/users/all')
             .then(response => response.json())
             .then(this.refresh);
     }
@@ -59,14 +53,10 @@ class Technicians extends Component{
 
     deleteTechnician = (id) =>{
 
-        fetch("http://localhost:4000/users/delete",{
+        fetch("http://10.0.0.58:8080/users/delete/"+id,{
             method: 'delete',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                id:id,
-            })
-        }).then(res=>res.json())
-            .then(res=>{
+        }).then(res=>{
                 this.setState({isLoaded: false});
                 this.componentDidMount();
             });
