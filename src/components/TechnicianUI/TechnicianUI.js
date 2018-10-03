@@ -5,8 +5,7 @@ import Server from "../Server/Server";
 import Kiosks from "../Kiosks/Kiosks";
 import TechniciansController from "../TechniciansController/TechniciansController";
 
-
-class LocalAdmin extends Component{
+class TechnicianUI extends Component{
 
     constructor(props){
         super(props);
@@ -112,4 +111,4 @@ class LocalAdmin extends Component{
     }
 }
 
-export default LocalAdmin;
+export default TechnicianUI;

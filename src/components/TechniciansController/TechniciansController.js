@@ -35,9 +35,14 @@ class TechniciansController extends Component {
                 }],
         }
     }
+
+    // update the date pick
     handleChange = date => this.setState({startDate: date });
 
+    // update the checklist
     handleChecked = item =>this.setState({problem:item});
+
+    // upload the list of technicians to table and select one of them to repair the kiosk that it has the problem
     render(){
         return (
             <div>
@@ -45,7 +50,7 @@ class TechniciansController extends Component {
                             data={this.props.data}
                             filterable={true} defaultSortDesc={true} defaultPageSize={5} minRows={5}/>
                 <div style={{display: 'flex', justifyContent: 'flex-start', padding:10}}>
-                    <label htmlFor={'date-picker'}>when he have to repair it: </label>
+                    <label htmlFor={'date-picker'}>when he suppose to repair it: </label>
                         <DatePicker name={'date-picker'}
                             selected={this.state.startDate}
                             onChange={this.handleChange}

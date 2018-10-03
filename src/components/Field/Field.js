@@ -7,11 +7,12 @@ const Field = (props)=> {
         props.onChange(event.target.name, event.target.value);
     };
 
+    // form for field
     return (
         <p className="field-wrapper">
-                    <label className="field-label" htmlFor={props.name}>{props.name}:</label>
-                    <input className="field-input"
-                           type={props.type || 'text'} name={props.name} onChange={extractValue}/>
+            <label className="field-label" htmlFor={props.name}>{props.name}:</label>
+            <input className="field-input"
+                   type={props.type || 'text'} name={props.name} onChange={extractValue}/>
         </p>
     );
 };
