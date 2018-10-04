@@ -22,8 +22,11 @@ class Admin extends Component {
         }
     }
 
-    // after render get all the servers from the server
-    componentDidMount() {
+    componentDidMount(){
+        this.updateComponent();
+    }
+
+    updateComponent = ()=>{
         fetch('http://10.0.0.58:8080/servers/all')
             .then(response => response.json())
             .then(servers => {
@@ -31,6 +34,16 @@ class Admin extends Component {
                 this.setState({servers: servers});
 
             });
+    };
+    // after render get all the servers from the server
+    componentWillMount() {
+        this.interval = setInterval(() =>{
+            this.updateComponent();
+        }, 10000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     // update the users

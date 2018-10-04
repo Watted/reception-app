@@ -17,6 +17,7 @@ class Kiosks extends Component {
             .then(response => response.json())
             .then(user => {
                 console.log(user);
+                console.log("render kiosks");
                 this.props.updateState(user);
 
             });

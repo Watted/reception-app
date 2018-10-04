@@ -12,14 +12,25 @@ class Server extends Component {
         }
 
     }
+    componentDidMount(){
+       this.updateComponent();
+    }
 
     // before render update the information about the server
     componentWillMount() {
+        this.interval = setInterval(()=>{
+            this.updateComponent();
+        },10000);
+    }
+
+    updateComponent = () =>{
         const {id, name, kiosks, status} = this.props.server;
         this.setState({color: status});
         this.setState({id: id, name: name, kiosks: kiosks});
+    };
 
-
+    componentWillUnmount() {
+        clearInterval(this.interval);
     }
 
     // upload the server with handle the route
