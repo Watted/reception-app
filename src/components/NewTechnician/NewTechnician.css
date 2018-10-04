@@ -1,15 +1,19 @@
 .footer{
     display: inline-flex;
 }
-.footer button{
+
+.create-new-user-btn, .back-user-btn{
     color: darkslateblue;
     background-color: lightblue;
     border: 1px solid darkslateblue;
     border-radius:5px;
-    margin: auto;
+    margin: 15px auto 20px;
+}
+
+.create-new-user-btn{
+
     margin-left: 40px;
 }
-.footer p{
-    margin:auto;
+.back-user-btn{
     margin-right: 40px;
 }

@@ -8,6 +8,7 @@ class SignIn extends React.Component {
         this.state = {
             signInEmail: '',
             signInPassword: '',
+            details:''
         }
     }
 
@@ -36,7 +37,7 @@ class SignIn extends React.Component {
                     this.props.loadUser(user);
                     this.props.onRouteChange(user.type);
                 }
-            });
+            }).catch(res=>this.setState({details:"Username or password incorrect"}));
     };
 
     // sign in form
@@ -59,6 +60,7 @@ class SignIn extends React.Component {
                                        className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100"
                                        type="password" name="password" id="password"/>
                             </div>
+                            <p className={'details-incorrect'}><span>{this.state.details}</span></p>
                         </fieldset>
                         <div className="">
                             <input

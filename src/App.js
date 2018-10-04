@@ -5,7 +5,19 @@ import './App.css';
 import SignIn from "./components/SignIn/SignIn";
 import TechnicianUI from "./components/TechnicianUI/TechnicianUI";
 import LocalAdmin from "./components/LocalAdmin/LocalAdmin";
+import Particles from 'react-particles-js';
 
+const particlesOptions = {
+    particles: {
+        number:{
+            value: 30,
+            density: {
+                enable: true,
+                value_area:400
+            }
+        }
+    }
+};
 
 class App extends Component {
 
@@ -50,6 +62,9 @@ class App extends Component {
     render() {
         return (
             <div className="App">
+                <Particles className='particles'
+                           params={particlesOptions}
+                />
                 <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
                 <div className="nav-left" hidden={!this.state.isSignedIn}>
                     <p className='app-logged-in f3 dim black'>logged in as: {this.state.user.type}</p>
