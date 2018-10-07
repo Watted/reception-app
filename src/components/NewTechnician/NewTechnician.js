@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Field from "../Field/Field";
 import './NewTechnician.css';
+import {getIPForAddNewTech} from "../../ServerIP/ServerIP";
 
 class NewTechnician extends Component {
 
@@ -33,7 +34,7 @@ class NewTechnician extends Component {
 
         const email = this.state.user.email;
         const name = this.state.user.name;
-        fetch('http://10.0.0.58:8080/users/addTech/' + name + '/' + email, {
+        fetch(getIPForAddNewTech() + name + '/' + email, {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({

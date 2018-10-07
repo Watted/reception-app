@@ -2,6 +2,7 @@ import ReactTable from "react-table";
 import React,{Component} from "react";
 import NewTechnician from "../NewTechnician/NewTechnician";
 import './Technicians.css';
+import {getIPForDeleteUser, getIPForGetAllUsers} from "../../ServerIP/ServerIP";
 
 class Technicians extends Component {
 
@@ -49,7 +50,7 @@ class Technicians extends Component {
     // after render get the technicians from the database
     componentDidMount() {
         console.log("render");
-        fetch('http://10.0.0.58:8080/users/all')
+        fetch(getIPForGetAllUsers())
             .then(response => response.json())
             .then(this.refresh);
     }
@@ -61,7 +62,7 @@ class Technicians extends Component {
 
     // delete technician from the database with this id
     deleteTechnician = (id) => {
-        fetch("http://10.0.0.58:8080/users/delete/" + id, {
+        fetch(getIPForDeleteUser() + id, {
             method: 'delete',
             headers: {'Content-Type': 'application/json'},
         }).then(res => {

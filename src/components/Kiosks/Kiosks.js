@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Circle from "../Circle/Circle";
+import {getIPForGetAllUsers} from "../../ServerIP/ServerIP";
 
 
 class Kiosks extends Component {
@@ -13,7 +14,7 @@ class Kiosks extends Component {
 
     // after render get all the technician from the server and handle the color of server
     componentDidMount() {
-        fetch('http://10.0.0.58:8080/users/all')
+        fetch(getIPForGetAllUsers())
             .then(response => response.json())
             .then(user => {
                 console.log(user);

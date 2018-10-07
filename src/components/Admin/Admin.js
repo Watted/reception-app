@@ -5,6 +5,7 @@ import './Admin.css';
 import Server from "../Server/Server";
 import Kiosks from "../Kiosks/Kiosks";
 import TechniciansController from "../TechniciansController/TechniciansController";
+import {getIPForGetAllServers, getIPForSendAssignToTech} from "../../ServerIP/ServerIP";
 
 const tenSec = 10000;
 
@@ -29,7 +30,7 @@ class Admin extends Component {
     }
 
     updateComponent = ()=>{
-        fetch('http://10.0.0.58:8080/servers/all')
+        fetch(getIPForGetAllServers())
             .then(response => response.json())
             .then(servers => {
                 console.log(servers);
@@ -69,7 +70,7 @@ class Admin extends Component {
     sendToTechnician = (techID, problem, date1) => {
         const macAddress = this.state.kiosk.macAddress;
         const date = date1.toString();
-        fetch('http://10.0.0.58:8080/users/assign/' + techID + '/' + macAddress + '/' + problem + '/' + date, {
+        fetch(getIPForSendAssignToTech() + techID + '/' + macAddress + '/' + problem + '/' + date, {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             /*body: JSON.stringify({

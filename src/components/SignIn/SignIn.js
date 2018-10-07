@@ -1,4 +1,5 @@
 import React from 'react';
+import {getIPForSignIn} from "../../ServerIP/ServerIP";
 
 
 class SignIn extends React.Component {
@@ -24,7 +25,7 @@ class SignIn extends React.Component {
 
     // post to the server thee username and password to sign in
     onSubmitSignIn = () => {
-        fetch('http://10.0.0.58:8080/auth/signin/' + this.state.signInEmail, {
+        fetch(getIPForSignIn() + this.state.signInEmail, {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
