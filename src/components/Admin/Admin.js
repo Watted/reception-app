@@ -6,6 +6,8 @@ import Server from "../Server/Server";
 import Kiosks from "../Kiosks/Kiosks";
 import TechniciansController from "../TechniciansController/TechniciansController";
 
+const tenSec = 10000;
+
 class Admin extends Component {
 
     constructor(props) {
@@ -39,7 +41,7 @@ class Admin extends Component {
     componentWillMount() {
         this.interval = setInterval(() =>{
             this.updateComponent();
-        }, 10000);
+        }, tenSec);
     }
 
     componentWillUnmount() {

@@ -54,7 +54,7 @@ class NewTechnician extends Component {
                     <h2 className='new-user-header'>Create new user</h2>
                     <Field name={'name'} type={'text'} onChange={this.updateField}/>
                     <Field name={'email'} type={'text'} onChange={this.updateField}/>
-                    <Field name={'password'} type={'text'} onChange={this.updateField}/>
+                    <Field name={'password'} type={'password'} onChange={this.updateField}/>
                     <p hidden={!this.state.message}>{this.state.message}</p>
                     <div className={'footer'}>
                         <button type='button' className={"back-user-btn"}

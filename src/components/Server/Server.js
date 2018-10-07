@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Circle from "../Circle/Circle";
 
+const tenSec = 10000;
 class Server extends Component {
     constructor(props) {
         super(props);
@@ -20,7 +21,7 @@ class Server extends Component {
     componentWillMount() {
         this.interval = setInterval(()=>{
             this.updateComponent();
-        },10000);
+        },tenSec);
     }
 
     updateComponent = () =>{

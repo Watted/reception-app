@@ -7,6 +7,7 @@ import TechnicianUI from "./components/TechnicianUI/TechnicianUI";
 import LocalAdmin from "./components/LocalAdmin/LocalAdmin";
 import Particles from 'react-particles-js';
 
+//to show animation on the screen
 const particlesOptions = {
     particles: {
         number:{

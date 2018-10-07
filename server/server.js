@@ -11,7 +11,7 @@ const database = {
             techName: 'Mohammed',
             password:'momo',
             email: 'wattk308@gmail.com',
-            type: 'Technician',
+            type: 'SYS_ADMIN',
         },
         {
             id: '456',
