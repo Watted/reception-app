@@ -66,17 +66,15 @@ class App extends Component {
                 <Particles className='particles'
                            params={particlesOptions}
                 />
-                <Navigation isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
-                <div className="nav-left" hidden={!this.state.isSignedIn}>
-                    <p className='app-logged-in f3 dim black'>logged in as: {this.state.user.type}</p>
-                </div>
+                <Navigation type={this.state.user.type} isSignedIn={this.state.isSignedIn} onRouteChange={this.onRouteChange}/>
+
                 <div className='switch'>
                     {this.state.route === 'SYS_ADMIN'
                         ? <Admin/>
                         : (this.state.route === 'LOCAL_ADMIN' ?
                                 <LocalAdmin/>
                                 : (this.state.route === 'TECH') ?
-                                    <TechnicianUI/>
+                                    <TechnicianUI techMail={this.state.user.email}/>
                                     : <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
                         )
                     }

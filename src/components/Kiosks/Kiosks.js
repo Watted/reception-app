@@ -18,23 +18,24 @@ class Kiosks extends Component {
             .then(response => response.json())
             .then(user => {
                 console.log(user);
-                console.log("render kiosks");
                 this.props.updateState(user);
 
             });
         if (this.props.kiosk.good) {
             this.setState({color: 'green'});
         } else {
+            let status = "";
             this.props.kiosk.exceptions.forEach((exception) => {
                 if (exception.exType === 'RED') {
-                    this.setState({color: 'red'});
-                    return;
+                    status = "red";
                 }
                 else {
-                    this.setState({color: 'yellow'})
-
+                    if(status === ""){
+                        status = "yellow";
+                    }
                 }
             });
+            this.setState({color: status});
         }
     }
 

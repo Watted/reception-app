@@ -2,12 +2,16 @@ import React from 'react';
 import './Navigation.css';
 
 // to handle the route of sign in and sign out
-const Navigation = ({onRouteChange,isSignedIn}) => {
+const Navigation = ({onRouteChange,isSignedIn,type}) => {
     if (isSignedIn) {
         return (
-            <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
-                <p onClick={() => onRouteChange('signout')} className='f3 link dim black underline pointer'>Sign Out</p>
-            </nav>
+            <div className="nav-left">
+                <p style={{float: 'left'}} className='app-logged-in f3 dim black'>logged in as: {type}</p>
+                <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <p onClick={() => onRouteChange('signout')} className='f3 link dim black underline pointer'>Sign
+                        Out</p>
+                </nav>
+            </div>
         )
     } else {
         return (

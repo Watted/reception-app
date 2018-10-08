@@ -1,23 +1,35 @@
+const url = "http://10.0.0.58:8080";//localhost:4000";
 export function getIPForDeleteUser() {
-    return "http://10.0.0.58:8080/users/delete/";
+    return url+"/users/delete/";
 };
 
 export function getIPForGetAllUsers() {
-    return 'http://10.0.0.58:8080/users/all';
+    return url+'/users/all';
 };
 
 export function getIPForSignIn() {
-    return 'http://10.0.0.58:8080/auth/signin/';
+    return url+'/auth/signin/';
 };
 
 export function getIPForAddNewTech() {
-    return 'http://10.0.0.58:8080/users/addTech/';
+    return url+'/users/addTech/';
 };
 
 export function getIPForGetAllServers() {
-    return 'http://10.0.0.58:8080/servers/all';
+    return url+'/servers/all';
 };
 
 export function getIPForSendAssignToTech() {
-    return 'http://10.0.0.58:8080/users/assign/';
+    return url+'/users/assign/';
 };
+
+export function getIPForTechProblem() {
+    return url+'/users/';
+};
+
+export function getIPForUpdateTechProblem() {
+    return url+'/users/updateKiosk/';
+};
+
+
+export const tenSeconds = 10000;

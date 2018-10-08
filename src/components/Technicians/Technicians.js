@@ -84,7 +84,7 @@ class Technicians extends Component {
                             <p className={"f3 link dim black underline pa3 pointer"}
                                onClick={() => this.props.onRouteChange('server', [])}>Back</p>
                         </div>
-                        <ReactTable noDataText={"There is no Technicians"} columns={columns}
+                        <ReactTable noDataText={"Loading..."} columns={columns}
                                     data={data}
                                     filterable={true} defaultSortDesc={true} defaultPageSize={5} minRows={5}/>
                     </div>
