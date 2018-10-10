@@ -1,4 +1,4 @@
-const url = "http://10.0.0.58:8080";//localhost:4000";
+const url = "http://10.0.0.58:8080";
 export function getIPForDeleteUser() {
     return url+"/users/delete/";
 };
@@ -29,6 +29,10 @@ export function getIPForTechProblem() {
 
 export function getIPForUpdateTechProblem() {
     return url+'/users/updateKiosk/';
+};
+
+export function getIPForGetKioksForServer() {
+    return url+'/servers/GetServer/';
 };
 
 

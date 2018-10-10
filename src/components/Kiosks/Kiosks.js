@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import Circle from "../Circle/Circle";
-import {getIPForGetAllUsers} from "../../ServerIP/ServerIP";
 
 
 class Kiosks extends Component {
@@ -14,13 +13,6 @@ class Kiosks extends Component {
 
     // after render get all the technician from the server and handle the color of server
     componentDidMount() {
-        fetch(getIPForGetAllUsers())
-            .then(response => response.json())
-            .then(user => {
-                console.log(user);
-                this.props.updateState(user);
-
-            });
         if (this.props.kiosk.good) {
             this.setState({color: 'green'});
         } else {

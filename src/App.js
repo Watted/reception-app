@@ -31,7 +31,8 @@ class App extends Component {
                 id: '',
                 name: "",
                 email: '',
-                type: ''
+                type: '',
+                serverIdForAdmin:''
             }
         }
     }
@@ -44,9 +45,10 @@ class App extends Component {
                 name: user.name,
                 email: user.email,
                 type: user.type,
+                serverIdForAdmin:user.serverIdForAdmin
             }
         });
-        console.log(user.name)
+        console.log(user.serverIdForAdmin)
     };
 
     // to change the route of the url from sign in to any user
@@ -72,7 +74,7 @@ class App extends Component {
                     {this.state.route === 'SYS_ADMIN'
                         ? <Admin/>
                         : (this.state.route === 'LOCAL_ADMIN' ?
-                                <LocalAdmin/>
+                                <LocalAdmin serverIdForAdmin={this.state.user.serverIdForAdmin}/>
                                 : (this.state.route === 'TECH') ?
                                     <TechnicianUI techMail={this.state.user.email}/>
                                     : <SignIn loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>

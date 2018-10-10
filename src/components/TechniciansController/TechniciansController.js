@@ -5,6 +5,8 @@ import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
 import './TechniciansController.css';
 import Popup from "reactjs-popup";
+import {getIPForGetAllUsers} from "../../ServerIP/ServerIP";
+
 
 
 class TechniciansController extends Component {
@@ -13,6 +15,7 @@ class TechniciansController extends Component {
         this.state = {
             startDate: moment(),
             problem:'',
+            data:[],
             redData:[],
             yellowData:[],
             columns2:[
@@ -47,8 +50,15 @@ class TechniciansController extends Component {
                     filterable: false,
                 },
                 {
+                    Header: 'Progress',
+                    accessor: 'inProgress',
+
+                },
+                {
                     Header: 'Checked',
-                    Cell: props =>{ return (<input type={'checkbox'} onChange={() => this.handleChecked(props.original.exceptionDisc)}/>)},
+                    Cell: props =>{ return (<input type={'checkbox'}
+                                                   onChange={() => this.handleChecked(props.original.exceptionDisc)}/>)},
+
                     sortable: false,
                     filterable: false,
                     width:100,
@@ -71,7 +81,8 @@ class TechniciansController extends Component {
                 },
                 {
                     Header: 'Action',
-                    Cell: props =>{ return (<p className={"link dim black underline ma0 pointer"} onClick={()=>{this.props.sendToTechnician(props.original.id,this.state.problem,this.state.startDate._d)}}>Send</p>)},
+                    Cell: props =>{ return (<p className={"link dim black underline ma0 pointer"}
+                                               onClick={()=>{this.props.sendToTechnician(props.original.id,this.state.problem,this.state.startDate._d)}}>Send</p>)},
                     sortable: false,
                     filterable: false,
                     width:100,
@@ -81,9 +92,16 @@ class TechniciansController extends Component {
         }
     }
 
-    componentWillMount(){
+    componentDidMount(){
+        fetch(getIPForGetAllUsers())
+            .then(response => response.json())
+            .then(user => {
+                this.setState({data:user});
+
+            });
         let redData = this.props.kiosk.exceptions.filter((item,j)=>item.exType !== "YELLOW");
         let yellowData = this.props.kiosk.exceptions.filter((item,j)=>item.exType !== "RED");
+        console.log(redData);
         this.setState({redData:redData,yellowData: yellowData});
     }
 
@@ -125,7 +143,7 @@ class TechniciansController extends Component {
                                 columns={this.state.columns1} data={this.state.redData}
                                 filterable={true} defaultSortDesc={true} defaultPageSize={4} minRows={5}/>
                     <ReactTable className='status-yellow-table' noDataText={"Loading..."} columns={this.state.columns}
-                                data={this.props.data}
+                                data={this.state.data}
                                 filterable={true} defaultSortDesc={true} defaultPageSize={5} minRows={5}/>
                     <div style={{display: 'flex', justifyContent: 'flex-start', padding:10}}>
                         <label htmlFor={'date-picker'}>when he suppose to repair it: </label>

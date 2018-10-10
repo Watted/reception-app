@@ -17,7 +17,6 @@ class Admin extends Component {
             route: 'server',
             kiosks: [],
             kiosk: null,
-            data: [],
             serverRoute: '',
             kioskRoute: '',
             isLoaded:false,
@@ -49,10 +48,6 @@ class Admin extends Component {
         clearInterval(this.interval);
     }
 
-    // update the users
-    updateState = (user) => {
-        this.setState({data: user});
-    };
 
     // update the kiosks
     onRouteChange = (route, kiosks) => {
@@ -118,8 +113,7 @@ class Admin extends Component {
                                             {this.state.serverRoute}</p>
                                         <div style={{display: 'flex'}}>
                                             {this.state.kiosks.map((kiosk, id) => {
-                                                return <Kiosks updateState={this.updateState}
-                                                               onRouteChangeTech={this.onRouteChangeTech}
+                                                return <Kiosks onRouteChangeTech={this.onRouteChangeTech}
                                                                updateKioskRoute={this.updateKioskRoute}
                                                                kiosk={kiosk} key={id}/>
                                             })}
@@ -142,7 +136,7 @@ class Admin extends Component {
                                                className='f3 link dim black underline pointer'>
                                                 {this.state.serverRoute + '->' + this.state.kioskRoute}</p>
                                             <TechniciansController sendToTechnician={this.sendToTechnician}
-                                                                   kiosk={this.state.kiosk} data={this.state.data}/>
+                                                                   kiosk={this.state.kiosk} />
                                         </div>
 
                                     )
