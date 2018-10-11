@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import ReactTable from "react-table";
+import 'react-table/react-table.css';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -15,6 +16,7 @@ class TechniciansController extends Component {
         this.state = {
             startDate: moment(),
             problem:'',
+            route:'exception',
             data:[],
             redData:[],
             yellowData:[],
@@ -38,10 +40,12 @@ class TechniciansController extends Component {
                 {
                     Header: 'Exception',
                     accessor: 'exceptionDisc',
+                    filterable: false,
                 },
                 {
                     Header: 'Date',
                     accessor: 'date',
+                    filterable: false,
                 },
                 {
                     Header: 'Status',
@@ -52,18 +56,16 @@ class TechniciansController extends Component {
                 {
                     Header: 'Progress',
                     accessor: 'inProgress',
-
+                    filterable: false,
                 },
                 {
                     Header: 'Checked',
-                    Cell: props =>{ return (<input type={'checkbox'}
+                    Cell: props =>{ return (<input disabled={this.getDisabled(props.original.inProgress)} onClick={()=>this.onRouteChange("technician")} type={'checkbox'}
                                                    onChange={() => this.handleChecked(props.original.exceptionDisc)}/>)},
 
                     sortable: false,
                     filterable: false,
-                    width:100,
-                    maxWidth:100,
-                    minWidth:100,
+
                 }
             ],
             columns:[
@@ -82,7 +84,9 @@ class TechniciansController extends Component {
                 {
                     Header: 'Action',
                     Cell: props =>{ return (<p className={"link dim black underline ma0 pointer"}
-                                               onClick={()=>{this.props.sendToTechnician(props.original.id,this.state.problem,this.state.startDate._d)}}>Send</p>)},
+                                               onClick={()=>{
+                                                   this.onRouteChange("exception");
+                                                   this.props.sendToTechnician(props.original.id,this.state.problem,this.state.startDate._d)}}>Send</p>)},
                     sortable: false,
                     filterable: false,
                     width:100,
@@ -91,6 +95,14 @@ class TechniciansController extends Component {
                 }],
         }
     }
+
+    getDisabled =(inProgress)=>{
+        return inProgress === "InProgress"
+    };
+
+    onRouteChange =(route) =>{
+        this.setState({route: route});
+    };
 
     componentDidMount(){
         fetch(getIPForGetAllUsers())
@@ -122,39 +134,44 @@ class TechniciansController extends Component {
 
         return (
             <div>
-                <Popup trigger={<button className="button">Notifications List</button>}
-                       contentStyle={contentStyle}>
-                    {close => (
-                        <div className="modal">
-                            <a className="close" onClick={close}>
-                                &times;
-                            </a>
-                            <div className="header"> Notifications List </div>
-                            <div className="content">
-                                <ReactTable noDataText={'There is no exception...'}
-                                            columns={this.state.columns2} data={this.state.yellowData}
+                    { this.state.route === "exception"
+                        ? <div>
+                            <Popup trigger={<button className="button">Notifications List</button>}
+                                   contentStyle={contentStyle}>
+                                {close => (
+                                    <div className="modal">
+                                        <a className="close" onClick={close}>
+                                            &times;
+                                        </a>
+                                        <div className="header"> Notifications List </div>
+                                        <div className="content">
+                                            <ReactTable noDataText={'There is no exception...'}
+                                                        columns={this.state.columns2} data={this.state.yellowData}
+                                                        filterable={true} defaultSortDesc={true} defaultPageSize={4} minRows={5}/>
+                                        </div>
+                                    </div>
+                                )}
+                            </Popup>
+                                <ReactTable className={'status-red-table'} noDataText={'There is no exception...'}
+                                            columns={this.state.columns1} data={this.state.redData}
                                             filterable={true} defaultSortDesc={true} defaultPageSize={4} minRows={5}/>
+                        </div>
+                                :
+                        <div>
+                            <div>
+                            <ReactTable className='status-yellow-table' noDataText={"Loading..."} columns={this.state.columns}
+                                        data={this.state.data}
+                                        filterable={true} defaultSortDesc={true} defaultPageSize={5} minRows={5}/>
                             </div>
-                    </div>
-                        )}
-                </Popup>
-                <div >
-                    <ReactTable className={'status-red-table'} noDataText={'There is no exception...'}
-                                columns={this.state.columns1} data={this.state.redData}
-                                filterable={true} defaultSortDesc={true} defaultPageSize={4} minRows={5}/>
-                    <ReactTable className='status-yellow-table' noDataText={"Loading..."} columns={this.state.columns}
-                                data={this.state.data}
-                                filterable={true} defaultSortDesc={true} defaultPageSize={5} minRows={5}/>
-                    <div style={{display: 'flex', justifyContent: 'flex-start', padding:10}}>
-                        <label htmlFor={'date-picker'}>when he suppose to repair it: </label>
-                        <DatePicker name={'date-picker'}
-                                    selected={this.state.startDate}
-                                    onChange={this.handleChange}
-                        />
-                    </div>
-                </div>
-
-
+                                <div style={{display: 'flex', justifyContent: 'flex-start', padding:10}}>
+                                <label htmlFor={'date-picker'}>when he suppose to repair it: </label>
+                                <DatePicker name={'date-picker'}
+                                selected={this.state.startDate}
+                                onChange={this.handleChange}
+                                />
+                                </div>
+                        </div>
+                    }
             </div>
         );
     }

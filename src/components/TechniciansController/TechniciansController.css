@@ -1,14 +1,3 @@
-.status-red-table{
-    float: left;
-    width: 50%;
-    padding: 10px;
-}
-.status-yellow-table{
-    float: right;
-    width: 50%;
-    padding: 10px;
-}
-
 button{
     color: #010102;
     border: 1px solid black;
