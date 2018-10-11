@@ -6,11 +6,17 @@ body {
   //background: linear-gradient(89deg,#FF5EDF 0%,#04C8DE 100%);
 
 }
+.app-logged-in{
+  font-size: x-large;
+}
 
 @media only screen
 and (max-width : 768px) {
   body{
     padding: 0;
+  }
+  .app-logged-in{
+    font-size: small;
   }
 }
 

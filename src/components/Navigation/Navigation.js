@@ -6,7 +6,7 @@ const Navigation = ({onRouteChange,isSignedIn,type}) => {
     if (isSignedIn) {
         return (
             <div className="nav-left">
-                <p style={{float: 'left'}} className='app-logged-in f3 dim black'>logged in as: {type}</p>
+                <p style={{float: 'left'}} className='app-logged-in dim black'>logged in as: {type}</p>
                 <nav style={{display: 'flex', justifyContent: 'flex-end'}}>
                     <p onClick={() => onRouteChange('signout')} className='f3 link dim black underline pointer'>Sign
                         Out</p>

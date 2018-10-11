@@ -3,6 +3,7 @@ import 'react-table/react-table.css';
 import Kiosks from "../Kiosks/Kiosks";
 import {getIPForGetKioksForServer, tenSeconds} from "../../ServerIP/ServerIP";
 import ReactTable from "react-table";
+import Popup from "reactjs-popup";
 
 
 class LocalAdmin extends Component{
@@ -110,6 +111,12 @@ class LocalAdmin extends Component{
     };
 
     render(){
+        const contentStyle = {
+            maxWidth: "600px",
+            width: "90%",
+            background: 'linear-gradient(89deg,#e6ffdb 0%,#8a8a8a  100%)'
+
+        };
         return(
             <div className='ma0'>
                 {this.state.isLoaded === false ?
@@ -136,15 +143,30 @@ class LocalAdmin extends Component{
                                        className='f3 link dim black underline pointer'>Back</p>
                                 </div>
                                 <div>
-                                    <ReactTable className={'status-red-table'} noDataText={'There is no exception...'}
-                                                columns={this.state.columns2} data={this.state.redData}
-                                                filterable={true} defaultSortDesc={true} defaultPageSize={5}
-                                                minRows={5}/>
+                                    <Popup trigger={<button className="button">Notifications List</button>}
+                                           contentStyle={contentStyle}>
+                                        {close => (
+                                            <div className="modal">
+                                                <a className="close" onClick={close}>
+                                                    &times;
+                                                </a>
+                                                <div className="header"> Notifications List </div>
+                                                <div className="content">
+                                                    <ReactTable className={'status-red-table'} noDataText={'There is no exception...'}
+                                                                columns={this.state.columns2} data={this.state.redData}
+                                                                filterable={true} defaultSortDesc={true} defaultPageSize={5}
+                                                                minRows={5}/>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </Popup>
+                                    <div className='ma3'>
                                     <ReactTable className='status-yellow-table' noDataText={"Loading..."}
                                                 columns={this.state.columns1}
                                                 data={this.state.yellowData}
                                                 filterable={true} defaultSortDesc={true} defaultPageSize={5}
                                                 minRows={5}/>
+                                    </div>
                                 </div>
 
 
