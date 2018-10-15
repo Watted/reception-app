@@ -1,5 +1,7 @@
 import React from 'react';
 import {getIPForSignIn} from "../../ServerIP/ServerIP";
+import {CognitoUserPool, CognitoUser, AuthenticationDetails} from 'amazon-cognito-identity-js';
+
 
 
 class SignIn extends React.Component {
@@ -25,20 +27,67 @@ class SignIn extends React.Component {
 
     // post to the server thee username and password to sign in
     onSubmitSignIn = () => {
-        fetch(getIPForSignIn() + this.state.signInEmail, {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                password: this.state.signInPassword
-            })
-        }).then(response => response.json())
-            .then(user => {
-                console.log(user);
-                if (user.id) {
-                    this.props.loadUser(user);
-                    this.props.onRouteChange(user.type);
-                }
-            }).catch(res=>this.setState({details:"Username or password incorrect"}));
+        var authenticationData = {
+            Username : this.state.signInEmail,
+            Password : this.state.signInPassword,
+        };
+        var authenticationDetails = new AuthenticationDetails(authenticationData);
+        var poolData = {
+            UserPoolId : 'us-east-2_xJqEhZxoR', // Your user pool id here
+            ClientId : '7tb5udokv621igkmivpm23fecn'
+        };
+        var userPool = new CognitoUserPool(poolData);
+        var userData = {
+            Username : this.state.signInEmail,
+            Pool : userPool
+        };
+        var cognitoUser = new CognitoUser(userData);
+        cognitoUser.authenticateUser(authenticationDetails, {
+            onSuccess:  (result)=> {
+                var accessToken = result.getAccessToken().getJwtToken();
+                fetch(getIPForSignIn(), {
+                    method: 'post',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        accessToken: accessToken
+                    })
+                }).then(response => response.json())
+                    .then(user => {
+                        console.log(user);
+                        if (user.id) {
+                            this.props.loadUser(user);
+                            this.props.onRouteChange(user.type);
+                        }
+                    }).catch(res=>this.setState({details:"Username or password incorrect"}));
+
+                //POTENTIAL: Region needs to be set if not already set previously elsewhere.
+                /*AWS.config.region = '<region>';
+
+                AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+                    IdentityPoolId : '...', // your identity pool id here
+                    Logins : {
+                        // Change the key below according to the specific region your user pool is in.
+                        'cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID>' : result.getIdToken().getJwtToken()
+                    }
+                });
+
+                //refreshes credentials using AWS.CognitoIdentity.getCredentialsForIdentity()
+                AWS.config.credentials.refresh((error) => {
+                    if (error) {
+                        console.error(error);
+                    } else {
+                        // Instantiate aws sdk service objects now that the credentials have been updated.
+                        // example: var s3 = new AWS.S3();
+                        console.log('Successfully logged!');
+                    }
+                });*/
+            },
+
+            onFailure: (err)=> {
+                console.log(err);
+            },
+
+        });
     };
 
     // sign in form

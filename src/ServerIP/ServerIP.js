@@ -8,7 +8,7 @@ export function getIPForGetAllUsers() {
 };
 
 export function getIPForSignIn() {
-    return url+'/auth/signin/';
+    return url+'/auth/validate/';
 };
 
 export function getIPForAddNewTech() {
