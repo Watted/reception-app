@@ -12,7 +12,7 @@ export function getIPForSignIn() {
 };
 
 export function getIPForAddNewTech() {
-    return url+'/users/addTech/';
+    return url+'/auth/createUser/';
 };
 
 export function getIPForGetAllServers() {
