@@ -3,6 +3,7 @@ import React,{Component} from "react";
 import NewTechnician from "../NewTechnician/NewTechnician";
 import './Technicians.css';
 import {getIPForDeleteUser, getIPForGetAllUsers} from "../../ServerIP/ServerIP";
+import {AuthenticationDetails, CognitoUser, CognitoUserPool} from "amazon-cognito-identity-js";
 
 class Technicians extends Component {
 
@@ -29,7 +30,7 @@ class Technicians extends Component {
                     Header: 'Action',
                     Cell: props => {
                         return (<p className={"link dim black underline ma0 pointer"} onClick={() => {
-                            this.deleteTechnician(props.original.id)
+                            this.deleteTechnician(props.original.email,props.original.id)
                         }}>Delete</p>)
                     },
                     sortable: false,
@@ -61,14 +62,48 @@ class Technicians extends Component {
     };
 
     // delete technician from the database with this id
-    deleteTechnician = (id) => {
-        fetch(getIPForDeleteUser() + id, {
-            method: 'delete',
-            headers: {'Content-Type': 'application/json'},
-        }).then(res => {
-            this.setState({isLoaded: false});
-            this.componentDidMount();
+    deleteTechnician = (email,id) => {
+
+        var authenticationDetails = new AuthenticationDetails({
+            Username: email,
+            Password: 'm123456789!',
         });
+        var poolData = {
+            UserPoolId : 'us-east-2_xJqEhZxoR', // Your user pool id here
+            ClientId : '7tb5udokv621igkmivpm23fecn' // Your client id here
+        };
+
+        var userPool = new CognitoUserPool(poolData);
+        var userData = {
+            Username : email,
+            Pool : userPool
+        };
+
+        var cognitoUser = new CognitoUser(userData);
+
+        cognitoUser.authenticateUser(authenticationDetails, {
+            onSuccess:  (result)=> {
+                cognitoUser.deleteUser((err, result) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log("Successfully deleted the user.");
+                        console.log(result);
+                        fetch(getIPForDeleteUser() + id, {
+                            method: 'delete',
+                            headers: {'Content-Type': 'application/json'},
+                        }).then(res => {
+                            this.setState({isLoaded: false});
+                            this.componentDidMount();
+                        });
+                    }
+                });
+            },
+            onFailure: function (err) {
+                console.log(err);
+            },
+        });
+
     };
 
     // upload the technicians table to add/delete technician

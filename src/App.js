@@ -6,6 +6,7 @@ import SignIn from "./components/SignIn/SignIn";
 import TechnicianUI from "./components/TechnicianUI/TechnicianUI";
 import LocalAdmin from "./components/LocalAdmin/LocalAdmin";
 import Particles from 'react-particles-js';
+import {CognitoUser, CognitoUserPool} from "amazon-cognito-identity-js";
 
 //to show animation on the screen
 const particlesOptions = {
@@ -35,7 +36,7 @@ class App extends Component {
                 serverIdForAdmin:''
             }
         }
-    }
+    };
 
     // update the user who has sign in
     loadUser = (user) => {
@@ -54,6 +55,19 @@ class App extends Component {
     // to change the route of the url from sign in to any user
     onRouteChange = (route) => {
         if (route === 'signout') {
+            var poolData = {
+                UserPoolId : 'us-east-2_xJqEhZxoR', // Your user pool id here
+                ClientId : '7tb5udokv621igkmivpm23fecn' // Your client id here
+            };
+
+            var userPool = new CognitoUserPool(poolData);
+            var userData = {
+                Username : this.state.user.email,
+                Pool : userPool
+            };
+            var cognitoUser = new CognitoUser(userData);
+
+            cognitoUser.signOut();
             this.setState({isSignedIn: false, user: {id: '', name: '', email: '', type: ''}});
         } else if (route === 'SYS_ADMIN' || route === 'LOCAL_ADMIN' || route === 'TECH') {
             this.setState({isSignedIn: true});

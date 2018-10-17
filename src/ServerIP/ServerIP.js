@@ -1,4 +1,4 @@
-const url = "http://10.0.0.58:8080";
+const url = "http://18.191.221.188:8080";
 export function getIPForDeleteUser() {
     return url+"/users/delete/";
 };

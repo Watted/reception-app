@@ -71,11 +71,13 @@ class NewTechnician extends Component {
         var attributeList = [];
 
         var dataEmail = {
-            Name : 'email',
-            Value : this.state.user.email
+            Name: 'email',
+            Value: this.state.user.email
         };
 
+
         var attributeEmail = new CognitoUserAttribute(dataEmail);
+
 
         attributeList.push(attributeEmail);
 
@@ -101,20 +103,6 @@ class NewTechnician extends Component {
 
             }
         });
-
-       /* const email = this.state.user.email;
-        const name = this.state.user.name;
-        fetch(getIPForAddNewTech() + name + '/' + email, {
-            method: 'post',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
-                 password: this.state.user.password,
-             })
-        }).then(user => {
-            console.log(user);
-            this.props.componentDidMount();
-        });
-        this.props.onRouteChange('list');*/
     };
 
     // upload the form of new technician

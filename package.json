@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "amazon-cognito-identity-js": "^3.0.2",
+    "aws-sdk": "^2.335.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.4",
     "enzyme": "^3.7.0",

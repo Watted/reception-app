@@ -1,6 +1,7 @@
 import React from 'react';
 import {getIPForSignIn} from "../../ServerIP/ServerIP";
 import {CognitoUserPool, CognitoUser, AuthenticationDetails} from 'amazon-cognito-identity-js';
+import * as AWS from "aws-sdk";
 
 
 
@@ -13,6 +14,49 @@ class SignIn extends React.Component {
             signInPassword: '',
             details:''
         }
+    }
+
+    loadAuthenticatedUser(){
+        console.log("Loading Auth User");
+        var poolData = {
+            UserPoolId : 'us-east-2_xJqEhZxoR', // Your user pool id here
+            ClientId : '7tb5udokv621igkmivpm23fecn'
+        };
+        var userPool = new CognitoUserPool(poolData);
+        var cognitoUser = userPool.getCurrentUser();
+
+        if (cognitoUser != null) {
+            cognitoUser.getSession((err, session)=> {
+                if (err) {
+                    alert(err.message || JSON.stringify(err));
+                    return;
+                }
+                console.log('session validity: ' + session.isValid());
+
+                var creds = new AWS.CognitoIdentityCredentials({
+                    IdentityPoolId : 'us-east-2:cd460c75-032c-41b1-b7eb-221fa9afcc67', // your identity pool id here
+                    Logins : {
+                        // Change the key below according to the specific region your user pool is in.
+                        'cognito-idp.us-east-2.amazonaws.com/us-east-2_xJqEhZxoR' : session.getIdToken().getJwtToken()
+                    }
+                },{
+                    region: "us-east-2"
+                });
+                console.log(creds);
+                creds.refresh((err,data)=>{
+                    if (err){
+                        console.log(err.message);
+                    } else {
+                        console.log(creds);
+                    }
+                })
+
+            });
+        }
+    }
+
+    componentDidMount(){
+        this.loadAuthenticatedUser();
     }
 
     // handle the event of the username
@@ -45,42 +89,32 @@ class SignIn extends React.Component {
         cognitoUser.authenticateUser(authenticationDetails, {
             onSuccess:  (result)=> {
                 var accessToken = result.getAccessToken().getJwtToken();
-                fetch(getIPForSignIn(), {
-                    method: 'post',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        accessToken: accessToken
-                    })
-                }).then(response => response.json())
-                    .then(user => {
-                        console.log(user);
-                        if (user.id) {
-                            this.props.loadUser(user);
-                            this.props.onRouteChange(user.type);
-                        }
-                    }).catch(res=>this.setState({details:"Username or password incorrect"}));
+                this.updateServer(accessToken);
 
                 //POTENTIAL: Region needs to be set if not already set previously elsewhere.
-                /*AWS.config.region = '<region>';
+                AWS.config.region = "us-east-2";
 
                 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId : '...', // your identity pool id here
+                    IdentityPoolId : 'us-east-2:cd460c75-032c-41b1-b7eb-221fa9afcc67', // your identity pool id here
                     Logins : {
                         // Change the key below according to the specific region your user pool is in.
-                        'cognito-idp.<region>.amazonaws.com/<YOUR_USER_POOL_ID>' : result.getIdToken().getJwtToken()
+                        'cognito-idp.us-east-2.amazonaws.com/us-east-2_xJqEhZxoR' : result.getIdToken().getJwtToken()
                     }
-                });
+                },
+                    {
+                        region:"us-east-2"
+                    });
 
                 //refreshes credentials using AWS.CognitoIdentity.getCredentialsForIdentity()
                 AWS.config.credentials.refresh((error) => {
                     if (error) {
-                        console.error(error);
+                        console.error(error.message);
                     } else {
                         // Instantiate aws sdk service objects now that the credentials have been updated.
                         // example: var s3 = new AWS.S3();
                         console.log('Successfully logged!');
                     }
-                });*/
+                });
             },
 
             onFailure: (err)=> {
@@ -90,6 +124,22 @@ class SignIn extends React.Component {
         });
     };
 
+    updateServer =(accessToken)=>{
+        fetch(getIPForSignIn(), {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                accessToken: accessToken
+            })
+        }).then(response => response.json())
+            .then(user => {
+                console.log(user);
+                if (user.id) {
+                    this.props.loadUser(user);
+                    this.props.onRouteChange(user.type);
+                }
+            }).catch(res=>this.setState({details:"Username or password incorrect"}));
+    }
     // sign in form
     render() {
         return (
