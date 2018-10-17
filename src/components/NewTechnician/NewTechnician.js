@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Field from "../Field/Field";
 import './NewTechnician.css';
-import {getIPForAddNewTech} from "../../ServerIP/ServerIP";
+import {getIPForAddNewTech, poolData} from "../../ServerIP/ServerIP";
 import {CognitoUser, CognitoUserAttribute, CognitoUserPool} from "amazon-cognito-identity-js";
 
 
@@ -33,11 +33,8 @@ class NewTechnician extends Component {
         })
     };
 
+    // to confirm the user email
     onConfirm = ()=>{
-        var poolData = {
-            UserPoolId : 'us-east-2_xJqEhZxoR', // Your user pool id here
-            ClientId : '7tb5udokv621igkmivpm23fecn' // Your client id here
-        };
 
         var userPool = new CognitoUserPool(poolData);
         var userData = {
@@ -60,12 +57,10 @@ class NewTechnician extends Component {
 
     // update the new user in the database
     // post to the server the new technician
+    //create new user to AWS cognito
     onCreateNewUser = () => {
 
-        var poolData = {
-            UserPoolId : 'us-east-2_xJqEhZxoR', // Your user pool id here
-            ClientId : '7tb5udokv621igkmivpm23fecn' // Your client id here
-        };
+
         var userPool = new CognitoUserPool(poolData);
 
         var attributeList = [];

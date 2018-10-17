@@ -35,5 +35,12 @@ export function getIPForGetKioksForServer() {
     return url+'/servers/GetServer/';
 };
 
+export const poolData = {
+    UserPoolId : 'us-east-2_xJqEhZxoR', // Your user pool id here
+    ClientId : '7tb5udokv621igkmivpm23fecn' // Your client id here
+};
+
+export const IdentityPoolId = 'us-east-2:cd460c75-032c-41b1-b7eb-221fa9afcc67';
+
 
 export const tenSeconds = 10000;

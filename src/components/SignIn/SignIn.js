@@ -1,5 +1,5 @@
 import React from 'react';
-import {getIPForSignIn} from "../../ServerIP/ServerIP";
+import {getIPForSignIn, IdentityPoolId, poolData} from "../../ServerIP/ServerIP";
 import {CognitoUserPool, CognitoUser, AuthenticationDetails} from 'amazon-cognito-identity-js';
 import * as AWS from "aws-sdk";
 
@@ -16,12 +16,10 @@ class SignIn extends React.Component {
         }
     }
 
+    //authenticate the user with AWS cognito
     loadAuthenticatedUser(){
         console.log("Loading Auth User");
-        var poolData = {
-            UserPoolId : 'us-east-2_xJqEhZxoR', // Your user pool id here
-            ClientId : '7tb5udokv621igkmivpm23fecn'
-        };
+
         var userPool = new CognitoUserPool(poolData);
         var cognitoUser = userPool.getCurrentUser();
 
@@ -34,7 +32,7 @@ class SignIn extends React.Component {
                 console.log('session validity: ' + session.isValid());
 
                 var creds = new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId : 'us-east-2:cd460c75-032c-41b1-b7eb-221fa9afcc67', // your identity pool id here
+                    IdentityPoolId : IdentityPoolId , // your identity pool id here
                     Logins : {
                         // Change the key below according to the specific region your user pool is in.
                         'cognito-idp.us-east-2.amazonaws.com/us-east-2_xJqEhZxoR' : session.getIdToken().getJwtToken()
@@ -76,10 +74,7 @@ class SignIn extends React.Component {
             Password : this.state.signInPassword,
         };
         var authenticationDetails = new AuthenticationDetails(authenticationData);
-        var poolData = {
-            UserPoolId : 'us-east-2_xJqEhZxoR', // Your user pool id here
-            ClientId : '7tb5udokv621igkmivpm23fecn'
-        };
+
         var userPool = new CognitoUserPool(poolData);
         var userData = {
             Username : this.state.signInEmail,
@@ -95,7 +90,7 @@ class SignIn extends React.Component {
                 AWS.config.region = "us-east-2";
 
                 AWS.config.credentials = new AWS.CognitoIdentityCredentials({
-                    IdentityPoolId : 'us-east-2:cd460c75-032c-41b1-b7eb-221fa9afcc67', // your identity pool id here
+                    IdentityPoolId : IdentityPoolId, // your identity pool id here
                     Logins : {
                         // Change the key below according to the specific region your user pool is in.
                         'cognito-idp.us-east-2.amazonaws.com/us-east-2_xJqEhZxoR' : result.getIdToken().getJwtToken()
@@ -124,6 +119,7 @@ class SignIn extends React.Component {
         });
     };
 
+    // send accesstoken to the server and get back the user who has signIn
     updateServer =(accessToken)=>{
         fetch(getIPForSignIn(), {
             method: 'post',
@@ -139,7 +135,7 @@ class SignIn extends React.Component {
                     this.props.onRouteChange(user.type);
                 }
             }).catch(res=>this.setState({details:"Username or password incorrect"}));
-    }
+    };
     // sign in form
     render() {
         return (

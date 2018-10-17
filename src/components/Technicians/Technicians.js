@@ -2,7 +2,7 @@ import ReactTable from "react-table";
 import React,{Component} from "react";
 import NewTechnician from "../NewTechnician/NewTechnician";
 import './Technicians.css';
-import {getIPForDeleteUser, getIPForGetAllUsers} from "../../ServerIP/ServerIP";
+import {getIPForDeleteUser, getIPForGetAllUsers, poolData} from "../../ServerIP/ServerIP";
 import {AuthenticationDetails, CognitoUser, CognitoUserPool} from "amazon-cognito-identity-js";
 
 class Technicians extends Component {
@@ -62,16 +62,14 @@ class Technicians extends Component {
     };
 
     // delete technician from the database with this id
+    // delete technician from AWS cognito
     deleteTechnician = (email,id) => {
 
         var authenticationDetails = new AuthenticationDetails({
             Username: email,
             Password: 'm123456789!',
         });
-        var poolData = {
-            UserPoolId : 'us-east-2_xJqEhZxoR', // Your user pool id here
-            ClientId : '7tb5udokv621igkmivpm23fecn' // Your client id here
-        };
+
 
         var userPool = new CognitoUserPool(poolData);
         var userData = {
