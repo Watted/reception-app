@@ -40,7 +40,6 @@ class SignIn extends React.Component {
                 },{
                     region: "us-east-2"
                 });
-                console.log(creds);
                 creds.refresh((err,data)=>{
                     if (err){
                         console.log(err.message);

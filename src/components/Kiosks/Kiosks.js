@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Circle from "../Circle/Circle";
+import {tenSeconds} from "../../ServerIP/ServerIP";
 
 
 class Kiosks extends Component {
@@ -7,12 +8,16 @@ class Kiosks extends Component {
         super(props);
         this.state = {
             color: '',
-
         }
     }
 
     // after render get all the technician from the server and handle the color of server
     componentDidMount() {
+        this.updateComponent();
+    }
+
+    updateComponent = ()=>{
+        console.log(this.props.kiosk);
         if (this.props.kiosk.good) {
             this.setState({color: 'green'});
         } else {
@@ -29,7 +34,20 @@ class Kiosks extends Component {
             });
             this.setState({color: status});
         }
+
+    };
+
+    // after render get all the servers from the server
+    componentWillMount() {
+        this.interval = setInterval(() =>{
+            this.updateComponent();
+        }, tenSeconds);
+
     }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    };
 
     // to show the kiosk and handle it
     render() {
