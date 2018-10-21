@@ -1,6 +1,6 @@
 import React , {Component} from 'react';
 import 'react-table/react-table.css';
-import {getIPForTechProblem, getIPForUpdateTechProblem} from "../../ServerIP/ServerIP";
+import {getIPForTechProblem, getIPForUpdateTechProblem, tenSeconds} from "../../ServerIP/ServerIP";
 import ReactTable from "react-table";
 
 
@@ -42,10 +42,26 @@ class TechnicianUI extends Component{
     }
 
     componentDidMount(){
+        this.updateComponent();
+    }
+
+    updateComponent=()=>{
         fetch(getIPForTechProblem() + this.props.techMail)
             .then(response => response.json())
             .then(this.refresh);
+    };
+
+    // after render get all the servers from the server
+    componentWillMount() {
+        this.interval = setInterval(() =>{
+            this.updateComponent();
+        }, tenSeconds);
+
     }
+
+    componentWillUnmount() {
+        clearInterval(this.interval);
+    };
 
     // update the list
     refresh = (res) => {
